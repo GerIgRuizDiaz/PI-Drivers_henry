@@ -1,0 +1,47 @@
+.card {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #444444;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 200px; /* Ancho reducido de la carta */
+}
+
+.image {
+  width: 200px; /* Imágenes un poco más grandes */
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px; /* Redondear las esquinas */
+  margin-bottom: 10px;
+}
+
+.info {
+  text-align: center;
+  color: #ccc;
+}
+
+.details {
+  margin: 5px 0;
+  color: #ccc;
+}
+
+.name {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+.handlDetail {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  
+}
+
+.handlDetail:hover {
+  text-decoration: underline
+}

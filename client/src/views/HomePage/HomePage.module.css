@@ -1,0 +1,16 @@
+.backgroundHome {
+    background-image: url('../../assets/Home.jpg');
+    background-repeat: no-repeat;
+    background-position: start; 
+    background-attachment: fixed; /* Hace que la imagen de fondo quede fija */
+    background-size: 100% 100%;
+}
+
+
+
+.cardsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 50px;
+}
