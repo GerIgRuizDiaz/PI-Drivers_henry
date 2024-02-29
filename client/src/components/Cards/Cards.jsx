@@ -11,16 +11,17 @@ const Cards = () => {
         <div className={styles.boxCards}>
             {
                 drivers.map((drivers) => {
-                    console.log(drivers);
+                    
                     return <Card
                         key={drivers.id}
-                        image={drivers.image.url}
+                        image={drivers.image.url || drivers.image}
                         id={drivers.id}
                         name={drivers.name}
+                        lastName={drivers.lastName}
                         description={drivers.description}
                         nationality={drivers.nationality}
                         teams={drivers.teams}
-                        birthDate={drivers.dob}
+                        birthDate={drivers.dob || drivers.birthDate}
                         number={drivers.number}
                     />
                         

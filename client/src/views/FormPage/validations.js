@@ -1,77 +1,54 @@
-export const validateForename = (value) => {
-    if (value.trim() === "") {
-      return "El nombre es obligatorio";
-    }
-    if (!/^[A-Za-z]+$/.test(value)) {
-      return "El nombre debe contener solo letras";
-    }
-    return "";
-  };
-  
-  export const validateSurname = (value) => {
-    if (value.trim() === "") {
-      return "El apellido es obligatorio";
-    }
-    if (!/^[A-Za-z]+$/.test(value)) {
-      return "El apellido debe contener solo letras";
-    }
-    return "";
-  };
-  
-  export const validateDob = (value) => {
-    if (value.trim() === "") {
-      return "La fecha de nacimiento es obligatoria";
-    }
-  
-    const dateParts = value.split("-");
-    if (dateParts.length !== 3) {
-      return "Formato de fecha no válido. Use el formato DD-MM-YYYY";
-    }
-  
-    const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10);
-    const year = parseInt(dateParts[2], 10);
-  
-    if (isNaN(day) || isNaN(month) || isNaN(year)) {
-      return "Formato de fecha no válido. Use el formato DD-MM-YYYY";
-    }
-  
-    if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1800) {
-      return "Fecha de nacimiento no válida";
-    }
-  
-    return "";
-  };
-  
-  export const validateDescription = (value) => {
-    if (typeof value !== "string") {
-      return "La descripción debe ser un texto";
-    }
-    return "";
-  };
-  
-  export const validateNationality = (value) => {
-    if (typeof value !== "string") {
-      return "La nacionalidad debe ser un texto";
-    }
-  
-    if (/\d/.test(value)) {
-      return "La nacionalidad no debe contener números";
-    }
-    return "";
-  };
-  
-  export const validateImage = (value) => {
-    if (typeof value !== "string") {
-      return "La imagen debe ser una URL";
-    }
-  
-    const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
-  
-    if (!urlPattern.test(value) ) {
-      return "La imagen no es una URL válida";
-    }
-  
-    return "";
-  };
-  
+const validations = (input) => {
+  const errors = {};
+  const nameRegex = /^[a-zA-Z0-9\_\-\s]{4,30}$/;
+  const nationalityRegex = /^[a-zA-Z0-9]+(?:\s*,\s*[a-zA-Z0-9]+)*$/;
+  const imageRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+  // Validacion de nombre
+  if (!input.forename) {
+      errors.forename = "Please enter a name";
+  } else if (input.forename.length >= 40) {
+      errors.forename = "Name should be less than 40 characters";
+  } else if (!nameRegex.test(input.forename)) {
+      errors.forename = "Name can only contain letters, numbers, spaces, underscores, and hyphens";
+  }
+
+  // Validacion de apellido
+  if (!input.surname) {
+      errors.surname = "Please enter a surname";
+  } else if (input.surname.length >= 40) {
+      errors.surname = "Surname should be less than 40 characters";
+  } else if (!nameRegex.test(input.surname)) {
+      errors.surname = "Surname can only contain letters, numbers, spaces, underscores, and hyphens";
+  }
+
+  // Validacion de descripción
+  if (!input.description) {
+      errors.description = "Please enter a description";
+  }
+
+  // Validacion de nacionalidad
+  if (!input.nationality) {
+      errors.nationality = "Please enter a nationality";
+  }
+
+  // Validacion de equipos
+  if (!input.teams) {
+      errors.teams = "Please enter at least one team";
+  }
+
+  // Validacion de fecha de nacimiento
+  if (!input.dob) {
+      errors.dob = "Please enter a birthdate";
+  }
+
+  // Validacion de imagen
+  if (input.image && !imageRegex.test(input.image)) {
+      errors.image = "Please enter a valid image URL";
+  }
+
+  return errors;
+};
+
+export default validations;
+

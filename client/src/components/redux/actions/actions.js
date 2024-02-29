@@ -2,7 +2,7 @@ import {
   GET_BYNAME,
   GET_DRIVERS,
   FILTER_ORIGIN,
-  ORDER_DRIVER, GET_TEAMS, FILTER_TEAM,GET_DETAIL
+  ORDER_DRIVER, GET_TEAMS, FILTER_TEAM,GET_DETAIL,PAGINATE
 } from "./actiontypes.js";
 import axios from "axios";
 
@@ -45,27 +45,28 @@ export const getDetail = (id) => {
   return async (dispatch) => {
       try {
           const { data } = await axios.get(`http://localhost:3001/drivers/${id}`);
+          console.log(data);
           return dispatch({
               type: GET_DETAIL,
               payload: data,
           })
+          
       } catch (error) {
           throw Error({ error: error.message });
       }
   }}
 
 
-export const filterOrigin = (option) => {
-  return function (dispatch) {
-    try {
-      dispatch({
-        type: FILTER_ORIGIN,
-        payload: option,
-      });
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
+  export const getCreate = () => {
+    return async (dispatch) => {
+        try {
+            return dispatch({
+                type: FILTER_ORIGIN,
+            });
+        } catch (error) {
+            alert(error.response.data.error);
+        }
+    };
 };
 
 export const orderDrivers = (option) => {
@@ -81,41 +82,45 @@ export const orderDrivers = (option) => {
   };
 };
 
-export const addDriver = (driver)=>{
-
-  driver.teams = driver.teams.split(",");
-  driver.teams.pop();
-  driver.teams = driver.teams.join(",")
-
-  return async function (dispatch){
-    await axios.post("http://localhost:3001/drivers/form", driver)
-  }
-}
 export const getTeams = ()=>{
-  return async function(dispatch){
-    let teams = await axios.get("http://localhost:3001/teams")
-   
+  return async (dispatch) => {
+      try {
+        const response = await axios.get(`http://localhost:3001/teams`);
+      
+        // Una vez que obtengas la respuesta del servidor, extraes los conductores de la respuesta
+        const allteams = response.data;
+          return dispatch({
+              type: GET_TEAMS,
+            payload: allteams
+          });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+  };
+};
+
+export const filterByTeam = (team) => {
+  return async function (dispatch) {
     try {
-      dispatch({
-        type: GET_TEAMS,
-        payload: teams,
-      })
-
+      return dispatch({
+        type: FILTER_TEAM,
+        payload: team
+    });
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
-  }
-}
+  };
+};
 
-export const filterByTeam = (option)=>{
-return async function (dispatch){
-  try {
-    dispatch({
-      type: FILTER_TEAM,
-      payload: option,
-    })
-  } catch (error) {
-    throw new Error(error.message)
-  }
-}
-}
+export const paginateDrivers = (order) => {
+  return async (dispatch) => {
+      try {
+          return dispatch({
+              type: PAGINATE,
+              payload: order,
+          });
+      } catch (error) {
+          alert(error.response.data.error);
+      };
+  };
+};

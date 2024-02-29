@@ -10,7 +10,7 @@ const Card = (driver) => {
     console.log('Aca esta el problema');; // Si driver no está definido, retornamos null para no renderizar nada
   }
 
-
+  const texto = `\\N`
   
   return (
     <div className={styles.card}>
@@ -18,10 +18,10 @@ const Card = (driver) => {
       <img src={driver.image} className={styles.image} />
 
       <div className={styles.info}>
+        
+        <p className={styles.details}>Number: {driver.number || texto}</p>
 
-        <p className={styles.details}>Number: {driver.number}</p>
-
-        <h3 className={styles.name}><p>{driver.name.forename} {driver.name.surname}</p></h3>
+        <h3 className={styles.name}><p>{driver.name.forename || driver.name} {driver.name.surname || driver.lastName}</p></h3>
 
         <p className={styles.details}>Birth Date: {driver.birthDate}</p>
 

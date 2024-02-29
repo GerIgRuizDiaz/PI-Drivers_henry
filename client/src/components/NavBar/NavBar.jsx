@@ -1,33 +1,33 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import React from 'react';
 import style from './NavBar.module.css'
 import Search from './SearchBar';
 import {
   getAllDrivers,
-  filterOrigin,
+  getCreate,
   orderDrivers,
-  addDriver,
   getTeams,
   filterByTeam
 } from '../redux/actions/actions'
 
 const NavBar = () => {
-  const teams = useSelector((state) => state.allTeams);
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getTeams())
-  }, []);
+  const teamsRedux = useSelector(state=> state.allTeams)
 
-  const handleFilter = (event) => {
-    dispatch(filterByTeam(event.target.value));
-  };
+useEffect(()=>{
+  dispatch(getTeams())
+
+},[])
+
+
 
   const handleCreatedButton = () => {
-    dispatch(addDriver());
+    dispatch(getCreate());
   };
 
   const handleAllDrivers = () => {
@@ -44,6 +44,12 @@ const NavBar = () => {
       window.location.reload();
     }
   };
+
+  const handleTeamsFilter = (event) => {
+   
+    dispatch(filterByTeam(event.target.value)); // Despachamos la acción con la opción seleccionada
+  };
+
 
 
   return (
@@ -62,15 +68,27 @@ const NavBar = () => {
       </div>
 
       <div>
-        <Search/>
+        <Search />
       </div>
-     
+
 
       <div className={style.option}>
         <button value="AllDrivers" onClick={handleAllDrivers} className={style.filterButton}>
           All Drivers
         </button>
       </div>
+
+      <div className={style.option} >
+        <select name="teams" onChange={handleTeamsFilter} className={style.filter}>
+          <option value="">Filter by Team</option>
+          {teamsRedux.map((team) => (
+            <option key={team.id} value={team.id}>{team.name}</option>
+          ))}
+        </select>
+      </div>
+
+
+
 
       <div className={style.option}>
         <button value='created' onClick={handleCreatedButton} className={style.filterButton}>
@@ -82,27 +100,13 @@ const NavBar = () => {
       <div className={style.option}>
         <select name="alphabetical" placeholder="Alphabetical" onChange={handleABC} className={style.filter}>
           <option value=''>Filter by name</option>
-          <option value='Z-A'>Z-A </option>
           <option value='A-Z' >A-Z</option>
-          <option value='descendente'>dob-d</option>
-          <option value='ascendente' >dob-a</option>
+          <option value='Z-A'>Z-A </option>
+          <option value='dobD'>dob-d</option>
+          <option value='dobA' >dob-a</option>
         </select>
       </div>
 
-      {/* 
-      <div className={style.option}>
-        <span>Select Team:</span>
-        <br />
-        <select name="Genres" placeholder="Gender" onChange={handleFilter} className={style.filter} size={5}>
-          {teams.map((teams) => (
-            <option
-              key={teams.id}
-              value={teams.name}>
-              {teams.name}
-            </option>
-          ))}
-        </select>
-      </div> */}
 
 
     </header>
